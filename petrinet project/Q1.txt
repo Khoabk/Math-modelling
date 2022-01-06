@@ -1,0 +1,23 @@
+1)
+a)  States:   P={free, busy, docu}
+    Transition: T={start, change, end}
+
+b.
+From the petri net given, we can see that for every t in T |*t| =1 and |t*| =1
+
+I. With the assumption stated that for all marking M, p in P, M(p)<=1, we can deduce that each place can either hold
+a token or none, this makes up a total of 2^|P| or 8 possible cases that the initial marking could be in. These 8 possible initial markings can be catergorized into 4 groups:
+	1. M0={f,b,d} -> M0(f)=M0(b)=M0(d)=0, with this initial marking, none of the transition is enabled to fire, hence this is a dedlock situation.
+
+	(0,0,0)
+
+	2. M0={f,b,d} -> M0(f)+M0(b)+M(d)=1. In this situation, one of the three places contains a token, the other two are empty, the transition where it's preset has a token is enabled to fire and based on the structure of this particular petri net when a transition fires it consumes a token from it's only preset to produce a token again for it's only postset and since only 1 token is available at a place at a time, consuming a token to produce one preserves the constraint of the assumption. For all M={f,b,d} ->  M(f)+M(b)+M(d)=1 there is always a transition enabled to fire in any marking of this group hence the petri net is deadlock free given M0 belongs to this group.
+
+	3. M0={f,b,d} -> (M0(f)+M0(b)+M0(d)=2)&&(M0(f)<=1,M0(b)<=1,M0(d)<=1). Markings belonging to this group are those that have two places containing a token in each and the other is empty,hence, at any marking, two transition are enabled to fire and because there is a transition in one of the two where it's preset has one token as well as it's postset, if this transition were to fire it would produce another token to it's none empty postset, that violates the assumption constraint, that is why only one transistion where it's postet is empty is allowded to fire.
+
+	4. M0={f,b,d} -> Mo(f)=Mo(d)=Mo(b)=1. Every transition in this marking is allowed to fire, however, firing any transition in this marking would produce an extra token in it's none empty postset, that vilolates the assumption constrain, hence given the assumption this marking is deadlock.
+
+
+
+II. The assumption for this section can be mathematically represented as: V M | (N,Mo)|t>(N,M) -> V p belongs to P, M(p) belongs to N.
+    In this problem, We notice that: m(free)+m(busy)+m(docu) = constant for any M. Let M | (N,Mo)|t>(N,M), M can be represented as a tuple (x,y,z) where x = M(free), y = M(busy), z = M(docu), we see that all the markings of the petri net belong to a plane on a x,y,z cartesian coordinate which has the equation as x+y+z = constant, x,y,z are in N. The transition between markings can happend in one of three ways: from x to y, from y to z and from z to x, hence, each transition can be represented as one of the three vectors: (x,y), (y,z), (z,x)  where (x,y)||(P & OXY), (y,z)||(p & OYZ), (z,x)||(p & OZX) as shown in the figure below. 
